@@ -52,8 +52,6 @@ public class PlayerController : MonoBehaviour
             Debug.Log("GOOT S uu");
             if (isOnGround && !isDropping)
             {
-                Debug.Log(isOnGround);
-                Debug.Log(isDropping);
                 StartCoroutine(DropThroughPlatform());
             }
         }
