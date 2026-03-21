@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        Physics.gravity *= gravityMultiplier;
+        Physics2D.gravity *= gravityMultiplier;
         rb = GetComponent<Rigidbody2D>();
         playerCollider = GetComponent<Collider2D>();
         GameObject[] platformObjects = GameObject.FindGameObjectsWithTag("Platform");
