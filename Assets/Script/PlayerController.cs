@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     public float speed = 5f;
     public float jumpForce = 10f;
+    public float knockback = 10f;
 
     [Header("Gravity")]
     public float gravityMultiplier = 1f;
@@ -30,6 +31,7 @@ public class PlayerController : MonoBehaviour
     [Header("Visual")]
     [SerializeField] private Transform visualTransform;
     [SerializeField] private Animator animator;
+    [SerializeField] private PlayerStat playerStat;
 
     // --- Private state ---
     private Rigidbody2D rb;
@@ -61,6 +63,7 @@ public class PlayerController : MonoBehaviour
         // ใช้ gravityScale แทน Physics2D.gravity เพื่อไม่ affect objects อื่น
         rb.gravityScale = gravityMultiplier;
 
+        playerStat = GetComponent<PlayerStat>();
         // หา platform colliders
         GameObject[] platformObjects = GameObject.FindGameObjectsWithTag("Platform");
         platformColliders = new Collider2D[platformObjects.Length];
@@ -68,7 +71,6 @@ public class PlayerController : MonoBehaviour
         {
             platformColliders[i] = platformObjects[i].GetComponent<Collider2D>();
         }
-
         jumpAction = InputSystem.actions.FindAction("Jump");
         moveAction = InputSystem.actions.FindAction("Move");
     }
@@ -99,6 +101,15 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector3(1, 1, 1);
         else if (horizontalInput < 0)
             transform.localScale = new Vector3(-1, 1, 1);
+    }
+
+    // -------------------------------------------------------
+    //  TakeDamage knockback
+    // -------------------------------------------------------
+    
+    public void DamageKnockback()
+    {
+        rb.AddForce(knockback * new Vector2(-1,1),ForceMode2D.Impulse);
     }
 
     // -------------------------------------------------------
