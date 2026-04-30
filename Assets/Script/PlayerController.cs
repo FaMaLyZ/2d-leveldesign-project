@@ -33,6 +33,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private PlayerStat playerStat;
 
+    [Header("Sound")]
+    [SerializeField] private AudioClip swordSlash;
+    [SerializeField] private AudioSource audioSource;
+
     // --- Private state ---
     private Rigidbody2D rb;
     private Collider2D playerCollider;
@@ -109,7 +113,7 @@ public class PlayerController : MonoBehaviour
     
     public void DamageKnockback()
     {
-        rb.AddForce(knockback * new Vector2(1,-1),ForceMode2D.Impulse);
+        rb.AddForce(knockback * new Vector2(1,1),ForceMode2D.Impulse);
     }
 
     // -------------------------------------------------------
@@ -189,7 +193,7 @@ public class PlayerController : MonoBehaviour
         // TODO: เรียก animator ที่นี่ได้เลย
         // animator.SetTrigger("Attack");
         animator.SetTrigger("attack");
-
+        audioSource.PlayOneShot(swordSlash);
         // Hitbox active ช่วงสั้น ๆ
         yield return new WaitForSeconds(0.5f); // delay เล็กน้อยให้ animation ขึ้นก่อน
 
