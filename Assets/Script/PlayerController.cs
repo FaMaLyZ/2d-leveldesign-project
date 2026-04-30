@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
         {
             rb.AddForce(jumpForce * Vector2.up, ForceMode2D.Impulse);
             isOnGround = false;
-            
+
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
@@ -63,13 +63,12 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Platform"))
         {
             isOnGround = true;
-            
         }
     }
     IEnumerator DropThroughPlatform()
     {
         isDropping = true;
-        // »Ô´ collision ¡Ñº platform ªÑèÇ¤ÃÒÇ
+        // ï¿½Ô´ collision ï¿½Ñº platform ï¿½ï¿½ï¿½Ç¤ï¿½ï¿½ï¿½
         foreach (Collider2D platform in platformColliders)
         {
             if (platform != null)
@@ -78,7 +77,7 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitForSeconds(dropCooldown);
 
-        // à»Ô´ collision ¡ÅÑº
+        // ï¿½Ô´ collision ï¿½ï¿½Ñº
         foreach (Collider2D platform in platformColliders)
         {
             if (platform != null)
