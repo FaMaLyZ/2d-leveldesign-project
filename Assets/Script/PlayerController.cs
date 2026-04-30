@@ -187,9 +187,8 @@ public class PlayerController : MonoBehaviour
         foreach (Collider2D enemy in hitEnemies)
         {
             Debug.Log("Hit: " + enemy.name);
-
-            // ถ้า enemy มี script รับ damage ก็เรียกได้เลย
-            // enemy.GetComponent<EnemyHealth>()?.TakeDamage(10);
+            var enemtGo = enemy.gameObject.GetComponent<Enemy>();
+            enemtGo.Attacked();
         }
 
         yield return new WaitForSeconds(attackDuration);
