@@ -109,7 +109,7 @@ public class PlayerController : MonoBehaviour
     
     public void DamageKnockback()
     {
-        rb.AddForce(knockback * new Vector2(-1,1),ForceMode2D.Impulse);
+        rb.AddForce(knockback * new Vector2(1,-1),ForceMode2D.Impulse);
     }
 
     // -------------------------------------------------------
@@ -191,7 +191,7 @@ public class PlayerController : MonoBehaviour
         animator.SetTrigger("attack");
 
         // Hitbox active ช่วงสั้น ๆ
-        yield return new WaitForSeconds(0.05f); // delay เล็กน้อยให้ animation ขึ้นก่อน
+        yield return new WaitForSeconds(0.5f); // delay เล็กน้อยให้ animation ขึ้นก่อน
 
         // ตรวจ overlap ศัตรู
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);

@@ -1,12 +1,18 @@
+using EnemyPatrolling;
 using UnityEditor.Rendering;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
     public int monsterDamge = 1 ;
+    public DeathPatrolling dead;
+    void Start()
+    {
+        dead = GetComponent<DeathPatrolling>();
+    }
     public void Attacked()
     {
-        Destroy(this.gameObject);
+        dead.onDead();
     }
     void OnCollisionEnter2D(Collision2D collision)
     {

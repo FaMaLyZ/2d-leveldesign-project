@@ -20,11 +20,10 @@ namespace EnemyPatrolling
             sprite = GetComponent<SpriteRenderer>();
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
+        
+        public void onDead()
         {
-            if (!isDead && collision.gameObject.CompareTag("Player"))
-            {
-                isDead = true;
+            isDead = true;
 
                 // Play death sound
                 if (audioSource != null && Death != null)
@@ -41,9 +40,7 @@ namespace EnemyPatrolling
 
                 // Destroy after 0.5 seconds
                 Destroy(gameObject, 0.5f);
-            }
         }
-
         private void CreateDeathParticle()
         {
             if (DeathParticle != null)
