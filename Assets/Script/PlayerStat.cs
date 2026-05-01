@@ -35,6 +35,7 @@ public class PlayerStat : MonoBehaviour
         isIfram = true;
         playerHp -= damagetaken;
         playerController.DamageKnockback();
+        playerController.audioSource.PlayOneShot(playerController.hurtSound);
         Debug.Log(playerHp);
         yield return new WaitForSeconds(0.5f);
         isIfram = false;

@@ -8,6 +8,9 @@ public class PlayerController : MonoBehaviour
     public float speed = 5f;
     public float jumpForce = 10f;
     public float knockback = 10f;
+    [SerializeField]private bool isWalking;
+    [SerializeField] private AudioSource walkAudioSource;
+    [SerializeField]private AudioClip walkSound;
 
     [Header("Gravity")]
     public float gravityMultiplier = 1f;
@@ -15,6 +18,8 @@ public class PlayerController : MonoBehaviour
     [Header("Jump Feel")]
     public float coyoteTime = 0.15f;
     public float jumpBufferTime = 0.1f;
+    [SerializeField]private AudioClip jumpSound; 
+    [SerializeField]private AudioClip landSound;
 
     [Header("Attack")]
     public float attackCooldown = 0.4f;
@@ -35,7 +40,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("Sound")]
     [SerializeField] private AudioClip swordSlash;
-    [SerializeField] private AudioSource audioSource;
+    public AudioClip hurtSound;
+    public AudioSource audioSource;
 
     // --- Private state ---
     private Rigidbody2D rb;
@@ -102,9 +108,27 @@ public class PlayerController : MonoBehaviour
         horizontalInput = moveAction.ReadValue<Vector2>().x;
         transform.Translate(horizontalInput * speed * Time.deltaTime * Vector2.right);
         if (horizontalInput > 0)
+        {
             transform.localScale = new Vector3(1, 1, 1);
+        }
         else if (horizontalInput < 0)
-            transform.localScale = new Vector3(-1, 1, 1);
+        {
+            transform.localScale = new Vector3(-1, 1, 1); 
+        }
+
+        bool moving = Mathf.Abs(horizontalInput) > 0.1f && isOnGround;
+        if (moving && !isWalking)
+        {
+            isWalking = true;
+            walkAudioSource.clip = walkSound;
+            walkAudioSource.loop = true;
+            walkAudioSource.Play();
+        }
+        else if (!moving && isWalking)
+        {
+            isWalking = false;
+            walkAudioSource.Stop();
+        }
     }
 
     // -------------------------------------------------------
@@ -147,7 +171,7 @@ public class PlayerController : MonoBehaviour
         if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f)
         {
             rb.AddForce(jumpForce * Vector2.up, ForceMode2D.Impulse);
-
+            audioSource.PlayOneShot(jumpSound);
             animator.SetTrigger("jump");
             // reset ทั้งคู่ทันที
             jumpBufferCounter = 0f;
@@ -243,6 +267,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Platform"))
         {
             isOnGround = true;
+            audioSource.PlayOneShot(landSound);
         }
     }
 
