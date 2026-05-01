@@ -19,8 +19,6 @@ namespace EnemyPatrolling
             col = GetComponent<Collider2D>();
             sprite = GetComponent<SpriteRenderer>();
         }
-
-        
         public void onDead()
         {
             isDead = true;
