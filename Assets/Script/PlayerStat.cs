@@ -4,22 +4,22 @@ using Unity.VisualScripting;
 using Unity.Mathematics;
 
 public class PlayerStat : MonoBehaviour
-{   
-    public int playerMaxHP = 10 ;
+{
+    public int playerMaxHP = 10;
     public int playerHp = 10;
 
     public bool isIfram = false;
 
     private PlayerController playerController;
-    
-    private void Start() 
+
+    private void Start()
     {
         playerController = GetComponent<PlayerController>();
     }
 
     public void TakeDamage(int damagetaken)
     {
-        if(!isIfram)
+        if (!isIfram)
         {
             StartCoroutine(Ifram(damagetaken));
         }
@@ -29,7 +29,7 @@ public class PlayerStat : MonoBehaviour
         playerHp = playerMaxHP;
         Debug.Log(playerHp);
     }
-    
+
     public IEnumerator Ifram(int damagetaken)
     {
         isIfram = true;
@@ -37,6 +37,12 @@ public class PlayerStat : MonoBehaviour
         playerController.DamageKnockback();
         playerController.audioSource.PlayOneShot(playerController.hurtSound);
         Debug.Log(playerHp);
+
+        if (playerHp <= 0)
+        {
+            GameOverManager.TriggerGameOver();
+            yield break;
+        }
         yield return new WaitForSeconds(0.5f);
         isIfram = false;
     }
